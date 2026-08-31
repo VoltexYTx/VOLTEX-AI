@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#02070d">
+
+<title>VERA | Voltex Systems</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #02070d;
+    --panel: rgba(5, 18, 30, 0.82);
+    --cyan: #58dcff;
+    --cyan2: #a9efff;
+    --line: rgba(88, 220, 255, 0.22);
+    --muted: #7899a6;
+    --text: #eafaff;
+    --green: #72ffd2;
+    --danger: #ff7695;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 50% 20%, rgba(34, 153, 210, 0.18), transparent 35%),
+        #02070d;
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(88,220,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88,220,255,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+.app {
+    width: min(1400px, 96%);
+    min-height: 100vh;
+    margin: auto;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.glass {
+    background: linear-gradient(
+        145deg,
+        rgba(6, 18, 29, .88),
+        rgba(5, 13, 23, .72)
+    );
+    border: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    box-shadow:
+        0 0 35px rgba(66, 203, 255, .06),
+        inset 0 0 30px rgba(88, 220, 255, .02);
+}
+
+header {
+    min-height: 76px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    gap: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--cyan);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 18px rgba(88,220,255,.3);
+}
+
+.logo::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: white;
+    box-shadow:
+        0 0 12px white,
+        0 0 30px var(--cyan);
+}
+
+.small {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+h1 {
+    font-size: 25px;
+    letter-spacing: 5px;
+    margin-top: 3px;
+}
+
+.online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-size: 11px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.online-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+}
+
+.dashboard {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr) 230px;
+    gap: 14px;
+}
+
+.sidebar {
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-title {
+    color: var(--muted);
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.core-container {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.core {
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--cyan);
+}
+
+.ring.one {
+    inset: 0;
+    border-style: dashed;
+    animation: spin 14s linear infinite;
+}
+
+.ring.two {
+    inset: 18px;
+    opacity: .55;
+    animation: reverseSpin 9s linear infinite;
+}
+
+.ring.three {
+    inset: 38px;
+    animation: pulse 2.5s ease-in-out infinite;
+}
+
+.center {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    box-shadow:
+        0 0 15px white,
+        0 0 35px var(--cyan),
+        0 0 80px rgba(88,220,255,.4);
+}
+
+.core-name {
+    margin-top: 15px;
+    letter-spacing: 4px;
+    font-size: 12px;
+}
+
+.core-status {
+    color: var(--green);
+    margin-top: 5px;
+    letter-spacing: 3px;
+    font-size: 9px;
+}
+
+.stat {
+    border: 1px solid rgba(88,220,255,.12);
+    background: rgba(255,255,255,.02);
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 10px;
+    margin-bottom: 7px;
+}
+
+.stat span:first-child {
+    color: var(--muted);
+}
+
+.stat strong {
+    color: var(--cyan2);
+}
+
+.actions {
+    display: grid;
+    gap: 8px;
+    margin-top: auto;
+}
+
+button {
+    border: 1px solid var(--line);
+    background: rgba(88,220,255,.05);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 11px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    background: rgba(88,220,255,.12);
+    border-color: var(--cyan);
+}
+
+.chat-panel {
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 650px;
+}
+
+.chat-top {
+    padding: 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.chat-top h2 {
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+#chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.message {
+    max-width: 78%;
+}
+
+.message.vera {
+    align-self: flex-start;
+}
+
+.message.user {
+    align-self: flex-end;
+}
+
+.message-name {
+    color: var(--muted);
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin: 0 0 5px 3px;
+}
+
+.user .message-name {
+    text-align: right;
+}
+
+.bubble {
+    border: 1px solid var(--line);
+    background: rgba(10,30,45,.7);
+    border-radius: 12px;
+    padding: 13px 15px;
+    line-height: 1.5;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+.user .bubble {
+    background: rgba(45,150,195,.12);
+}
+
+.input-container {
+    border-top: 1px solid var(--line);
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 48px minmax(0,1fr) auto;
+    gap: 8px;
+}
+
+input {
+    background: rgba(0,0,0,.25);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    outline: none;
+    color: white;
+    padding: 0 13px;
+    min-width: 0;
+}
+
+input:focus {
+    border-color: var(--cyan);
+}
+
+.send {
+    padding-left: 18px;
+    padding-right: 18px;
+    color: var(--cyan2);
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.mic {
+    font-size: 17px;
+}
+
+.mic.listening {
+    color: var(--danger);
+    border-color: var(--danger);
+    box-shadow: 0 0 20px rgba(255,118,149,.2);
+}
+
+.capabilities {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    font-size: 11px;
+    color: #aec6cf;
+}
+
+.capabilities li::before {
+    content: "●";
+    color: var(--green);
+    margin-right: 9px;
+}
+
+.repo-link {
+    display: block;
+    text-decoration: none;
+    color: var(--cyan2);
+    border: 1px solid var(--line);
+    background: rgba(88,220,255,.04);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 10px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.repo-link:hover {
+    border-color: var(--cyan);
+    background: rgba(88,220,255,.1);
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #4e6b76;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes reverseSpin {
+    to { transform: rotate(-360deg); }
+}
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(.95);
+        opacity: .4;
+    }
+    50% {
+        transform: scale(1.07);
+        opacity: 1;
+    }
+}
+
+@media(max-width: 950px) {
+    .dashboard {
+        grid-template-columns: 190px minmax(0,1fr);
+    }
+    .right {
+        display: none;
+    }
+}
+
+@media(max-width: 700px) {
+    .app {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .dashboard {
+        display: block;
+    }
+
+    .left {
+        display: none;
+    }
+
+    .chat-panel {
+        min-height: calc(100vh - 105px);
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .small {
+        font-size: 7px;
+    }
+
+    .online {
+        font-size: 8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="glass">
+    <div class="brand">
+        <div class="logo"></div>
+        <div>
+            <div class="small">VOLTEX SYSTEMS</div>
+            <h1>VERA</h1>
+        </div>
+    </div>
+
+    <div class="online">
+        <span class="online-dot"></span>
+        SYSTEM ONLINE
+    </div>
+</header>
+
+<div class="dashboard">
+
+<aside class="sidebar left glass">
+
+    <div class="core-container">
+        <div class="core">
+            <div class="ring one"></div>
+            <div class="ring two"></div>
+            <div class="ring three"></div>
+            <div class="center"></div>
+        </div>
+
+        <div class="core-name">V.E.R.A.</div>
+        <div class="core-status">CORE STABLE</div>
+    </div>
+
+    <div>
+        <div class="section-title">SYSTEM STATUS</div>
+        <br>
+
+        <div class="stat">
+            <span>CORE</span>
+            <strong>ONLINE</strong>
+        </div>
+
+        <div class="stat">
+            <span>MEMORY</span>
+            <strong>LOCAL</strong>
+        </div>
+
+        <div class="stat">
+            <span>VOICE</span>
+            <strong id="voiceStatus">READY</strong>
+        </div>
+
+        <div class="stat">
+            <span>AI LINK</span>
+            <strong>DEMO</strong>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button onclick="command('system status')">SYSTEM STATUS</button>
+        <button onclick="command('what time is it')">TIME</button>
+        <button onclick="command('what is the date')">DATE</button>
+        <button onclick="command('help')">COMMANDS</button>
+        <button onclick="clearChat()">CLEAR CHAT</button>
+    </div>
+
+</aside>
+
+<main class="chat-panel glass">
+
+    <div class="chat-top">
+        <div class="small">VERA INTERFACE</div>
+        <h2>Conversation</h2>
+    </div>
+
+    <div id="chat"></div>
+
+    <form id="form" class="input-container">
+        <button type="button" class="mic" id="mic">◉</button>
+
+        <input
+            id="input"
+            placeholder="Speak to VERA..."
+            autocomplete="off"
+        >
+
+        <button class="send" type="submit">SEND</button>
+    </form>
+
+</main>
+
+<aside class="sidebar right glass">
+
+    <div>
+        <div class="section-title">VERA</div>
+        <br>
+
+        <div class="stat">
+            <span>VERSION</span>
+            <strong>1.0</strong>
+        </div>
+
+        <div class="stat">
+            <span>MODE</span>
+            <strong>ASSISTANT</strong>
+        </div>
+
+        <div class="stat">
+            <span>STATUS</span>
+            <strong>ACTIVE</strong>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-title">CAPABILITIES</div>
+        <br>
+
+        <ul class="capabilities">
+            <li>Text Interface</li>
+            <li>Voice Input</li>
+            <li>Spoken Responses</li>
+            <li>Local Memory</li>
+            <li>Browser Commands</li>
+            <li>AI Integration Ready</li>
+        </ul>
+    </div>
+
+    <div>
+        <div class="section-title">PROJECT</div>
+        <br>
+
+        <a
+            class="repo-link"
+            href="https://github.com/VoltexYTx/VOLTEX-AI"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            github.com/VoltexYTx/VOLTEX-AI
+        </a>
+    </div>
+
+</aside>
+
+</div>
+
+<footer>
+    <span>VOLTEX SYSTEMS // VERA</span>
+    <span>VOLTEX-AI // VoltexYTx</span>
+</footer>
+
+</div>
+
+<script>
+
+const VERA_NAME = "VERA";
+const USER_NAME = "Hunter";
+
+/*
+Later, place the URL for your SECURE AI backend here.
+
+DO NOT put a private OpenAI API key in this HTML file.
+
+Example:
+const AI_ENDPOINT = "https://your-worker.workers.dev/api/chat";
+*/
+
+const AI_ENDPOINT = "";
+
+const chat = document.getElementById("chat");
+const form = document.getElementById("form");
+const input = document.getElementById("input");
+const mic = document.getElementById("mic");
+
+let history = [];
+
+try {
+    history =
+        JSON.parse(localStorage.getItem("vera-history")) || [];
+} catch {
+    history = [];
+}
+
+function addMessage(role, text, save = true) {
+
+    const container = document.createElement("div");
+
+    container.className =
+        "message " +
+        (role === "user" ? "user" : "vera");
+
+    const name = document.createElement("div");
+    name.className = "message-name";
+
+    name.textContent =
+        role === "user"
+            ? USER_NAME.toUpperCase()
+            : VERA_NAME;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = text;
+
+    container.appendChild(name);
+    container.appendChild(bubble);
+
+    chat.appendChild(container);
+    chat.scrollTop = chat.scrollHeight;
+
+    if (save) {
+        history.push({
+            role: role,
+            content: text
+        });
+
+        history = history.slice(-40);
+
+        localStorage.setItem(
+            "vera-history",
+            JSON.stringify(history)
+        );
+    }
+}
+
+if (history.length > 0) {
+
+    history.forEach(message => {
+        addMessage(
+            message.role,
+            message.content,
+            false
+        );
+    });
+
+} else {
+
+    addMessage(
+        "assistant",
+        "VERA online. All local systems are operational. How can I help?"
+    );
+
+}
+
+function speak(text) {
+
+    if (!("speechSynthesis" in window)) return;
+
+    speechSynthesis.cancel();
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.rate = 1;
+    speech.pitch = .95;
+    speech.volume = 1;
+
+    speechSynthesis.speak(speech);
+}
+
+function localCommand(text) {
+
+    const msg = text.toLowerCase().trim();
+
+    if (
+        msg === "system status" ||
+        msg === "status"
+    ) {
+        return (
+            "All local VERA systems are operational. " +
+            "Voice systems and local memory are online."
+        );
+    }
+
+    if (
+        msg.includes("what time") ||
+        msg === "time"
+    ) {
+        return (
+            "The current time is " +
+            new Date().toLocaleTimeString(
+                [],
+                {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            ) +
+            "."
+        );
+    }
+
+    if (
+        msg.includes("date") ||
+        msg.includes("what day")
+    ) {
+        return (
+            "Today is " +
+            new Date().toLocaleDateString(
+                [],
+                {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric"
+                }
+            ) +
+            "."
+        );
+    }
+
+    if (
+        msg === "help" ||
+        msg === "commands"
+    ) {
+        return (
+`Current VERA commands:
+
+• System status
+• What time is it?
+• What's today's date?
+• Open YouTube
+• Open Google
+• Open GitHub
+• Open my repository
+• Clear chat
+
+More abilities will be added as VERA develops.`
+        );
+    }
+
+    if (msg.includes("open youtube")) {
+        window.open(
+            "https://youtube.com",
+            "_blank"
+        );
+
+        return "Opening YouTube.";
+    }
+
+    if (msg.includes("open google")) {
+        window.open(
+            "https://google.com",
+            "_blank"
+        );
+
+        return "Opening Google.";
+    }
+
+    if (
+        msg.includes("open my repository") ||
+        msg.includes("open voltex ai repo")
+    ) {
+        window.open(
+            "https://github.com/VoltexYTx/VOLTEX-AI",
+            "_blank"
+        );
+
+        return "Opening the VOLTEX-AI repository.";
+    }
+
+    if (msg.includes("open github")) {
+        window.open(
+            "https://github.com",
+            "_blank"
+        );
+
+        return "Opening GitHub.";
+    }
+
+    if (
+        msg.includes("who are you") ||
+        msg.includes("your name")
+    ) {
+        return (
+            "I am VERA, the Voltex Enhanced Response Assistant."
+        );
+    }
+
+    if (
+        msg.includes("hello") ||
+        msg.includes("hey vera") ||
+        msg === "vera"
+    ) {
+        return "Hello. VERA is online.";
+    }
+
+    return null;
+}
+
+async function askAI(message) {
+
+    if (!AI_ENDPOINT) {
+        return (
+            "My full AI intelligence isn't connected yet. " +
+            "My local systems are online, but I am currently running in demo mode."
+        );
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                AI_ENDPOINT,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            message: message,
+                            history: history.slice(-14)
+                        })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        return (
+            data.reply ||
+            "I received no response from the AI core."
+        );
+
+    } catch (error) {
+
+        return (
+            "I cannot currently reach the AI core."
+        );
+
+    }
+}
+
+async function sendMessage(text) {
+
+    if (!text.trim()) return;
+
+    addMessage("user", text);
+
+    const local = localCommand(text);
+
+    let reply;
+
+    if (local) {
+        reply = local;
+    } else {
+        reply = await askAI(text);
+    }
+
+    addMessage("assistant", reply);
+    speak(reply);
+}
+
+form.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+        const text = input.value;
+
+        input.value = "";
+
+        sendMessage(text);
+    }
+);
+
+function command(text) {
+    sendMessage(text);
+}
+
+function clearChat() {
+
+    if (
+        !confirm(
+            "Clear VERA's local conversation memory?"
+        )
+    ) return;
+
+    history = [];
+
+    localStorage.removeItem(
+        "vera-history"
+    );
+
+    chat.innerHTML = "";
+
+    addMessage(
+        "assistant",
+        "Conversation memory cleared. VERA systems remain online."
+    );
+}
+
+const Recognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (Recognition) {
+
+    const recognition =
+        new Recognition();
+
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+
+    recognition.addEventListener(
+        "start",
+        () => {
+
+            mic.classList.add("listening");
+
+            document.getElementById(
+                "voiceStatus"
+            ).textContent = "LISTENING";
+        }
+    );
+
+    recognition.addEventListener(
+        "end",
+        () => {
+
+            mic.classList.remove("listening");
+
+            document.getElementById(
+                "voiceStatus"
+            ).textContent = "READY";
+        }
+    );
+
+    recognition.addEventListener(
+        "result",
+        event => {
+
+            const text =
+                event.results[0][0]
+                    .transcript;
+
+            sendMessage(text);
+        }
+    );
+
+    mic.addEventListener(
+        "click",
+        () => {
+
+            try {
+                recognition.start();
+            } catch {}
+        }
+    );
+
+} else {
+
+    mic.disabled = true;
+
+    document.getElementById(
+        "voiceStatus"
+    ).textContent = "UNAVAILABLE";
+}
+
+</script>
+
+</body>
+</html>
